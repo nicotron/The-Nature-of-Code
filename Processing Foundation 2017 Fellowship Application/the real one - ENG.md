@@ -1,4 +1,6 @@
-Durante el año 2015 el vice decano de la Facultad de Diseño de la Universidad del Desarrollo de Santiago de Chile y ITP NYU Alumni, Sergio Majluf, me invitó a dictar el curso de un semestre de Creative Coding basado en Processing como herramienta fundamental del proceso creativo. Este año dicté la segunda versión de esa asignatura, mejorando el contenido y material de trabajo, y tuve la oportunidad de generar un grupo de exploración con ex alumnos quienes querían profundizar sus conocimientos de programación, decidí que el libro de Daniel Shiffman - The Nature of Code, era el contenido indicado a seguir.
+A long 2015 Universidad del Desarrollo Associate Dean of Design School and ITP NYU Alumni Sergio Majluf, invited me to teach a subject of Creative Coding based on Processgin as the main tool for creative process. In 2016 I taught the same subject, iterating
+
+ Este año dicté la segunda versión de esa asignatura, mejorando el contenido y material de trabajo, y tuve la oportunidad de generar un grupo de exploración con ex alumnos quienes querían profundizar sus conocimientos de programación, decidí que el libro de Daniel Shiffman - The Nature of Code, era el contenido indicado a seguir.
 
 Es ahí en donde vi un problema, el rico y complejo contenido está disponible solo en inglés, lo que genera una barrera linguistica de accesibilidad al lenguaje de programación que se ve reflejada en la frustración de aprendizaje de los alumnos. Entonces decidí que para aprender el contenido del libro, primero se debía traducir; traducir para entender, entender para programar y poder explicar en una lengua española.
 
@@ -22,15 +24,15 @@ Enero - Febrero: Presentación del proyecto en universidades de latinoamerica pa
 
 Marzo: Traducción de capítulos:
 
-{0}.  2 - Forces
-{0}. 3 - Oscillation
-{0}. 4 - Particle Systems
+-  2 - Forces
+- 3 - Oscillation
+- 4 - Particle Systems
 
 Abril: Traducción de capítulos:
 
-{0}. 5 - Physics Libraries
-{0}. 6 - Autonomous Agents
-{0}. 7 - Celular Automata
+- 5 - Physics Libraries
+- 6 - Autonomous Agents
+- 7 - Celular Automata
 
 Mayo: Traducción de capítulos:
 
