@@ -6,7 +6,7 @@ Durante el año 2016 comenzamos a traducir el libro en una estructura de trabajo
 
 Para asegurar que la traducción sea en un español latinoamerica neutro, se trabajará con la red de contacto de universidades que tiene la univerdidad del desarrollo, además de la comunidad de Processing, asegurando un número mayor de traductores y revisadores, los traductores se espera ques ean alunnos de pregrado o postgrado; y los revisores sean profesores de lengua y/o programación.
 
-Finalmente el resultado esperado con la traducción del libro, además de la traducción en si, es construir una red de profesores y alumnos que puedan traducir a un español latinoamericano neutro, toda la referencia existente y por ser creatada, de Processing en cualquier formato que exista, web, pdf, libro, video.
+Finalmente el resultado esperado con la traducción del libro, además de la traducción en si, es construir una red de profesores y alumnos que puedan traducir a un español latinoamericano neutro, (toda la referencia existente y por ser creada), de Processing en cualquier formato que exista, web, pdf, libro, video.
 
 
 
@@ -18,7 +18,23 @@ Durante todo 2016 el equipo de trabajo ha ejecutado un flujo de trabajo que cons
 
 Las siguientes etapas en el proyecto son:
 
-1. Enero - Febrero: Presentación del proyecto en universidades de latinoamerica para construir una red de traductores (estudiantes) y revisores (profesores)
-2. Marzo: Traducción de capítulos 2 - 4
-3. Abril: Traducción de capítulos 5 - 7
-4. Mayo: Traducción de capítulos 8 - 10
+Enero - Febrero: Presentación del proyecto en universidades de latinoamerica para construir una red de traductores (estudiantes) y revisores (profesores)
+
+Marzo: Traducción de capítulos:
+
+{0}.  2 - Forces
+{0}. 3 - Oscillation
+{0}. 4 - Particle Systems
+
+Abril: Traducción de capítulos:
+
+{0}. 5 - Physics Libraries
+{0}. 6 - Autonomous Agents
+{0}. 7 - Celular Automata
+
+Mayo: Traducción de capítulos:
+
+- 8 - Fractals
+- 9 - The Evolution of Code
+- 10 - Neural Networks
+- Further Reading
