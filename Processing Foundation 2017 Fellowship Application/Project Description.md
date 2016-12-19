@@ -12,33 +12,5 @@ Getting the book translated by this new, broad and divers network throughout Lat
 
 
 
-------
+[Letter of Recommendation - To Joanna Headva, Director of  Initiatives Processing Foundation](https://github.com/disenoudd/The-Nature-of-Code/blob/master/Processing%20Foundation%202017%20Fellowship%20Application/Nicolas-Troncoso.pdf)
 
-
-
-Throughout entirely 2016 a group of four, two students from 2015 class and two teachers, have been translating the book in a work structure based on GitHub workflow, teachers have been working as a revisers/translators/teachers, and student as translators/explorers. Students have been working on ideas that came up by understanding what they are translating and writing, and documenting them for Design School exhibitions. 
-
-Once the Latin American network be build, the material generated and University dependencies will be open to make several kind of events to spread the work of the Processing Foundation, and the communication of Processing language.
-
-**2017** milestones:
-
-**January to February**: Building the network of revisers and translators.
-
-**March** - chapters to translate:
-
--  2 - Forces
-- 3 - Oscillation
-- 4 - Particle Systems
-
-**April** - chapters to translate:
-
-- 5 - Physics Libraries
-- 6 - Autonomous Agents
-- 7 - Celular Automata
-
-**May** - chapters to translate:
-
-- 8 - Fractals
-- 9 - The Evolution of Code
-- 10 - Neural Networks
-- Further Reading
