@@ -26,3 +26,9 @@ Once the Latin American network be build, the material generated and University 
 - 9 - The Evolution of Code
 - 10 - Neural Networks
 - Further Reading
+
+**June** - Realising 
+
+- Final revisions by all the revisors
+- Connect the translated book with the english website of the book
+- Releasing in GitHub
