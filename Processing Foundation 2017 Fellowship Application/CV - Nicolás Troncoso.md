@@ -1,6 +1,8 @@
-Nicolás Troncoso López
+**Nicolás Troncoso López**
 
 Designer and Professor based on Santiago de Chile.
+
+
 
 **Self Work**
 
@@ -20,7 +22,7 @@ From the last two years I've been working as a professor at the Design School in
 
 - Creative Coding (semester)
 
-  The objective of the course is to develop habilities and tool for visualizing ideas and information, through the use of visual elements, typography, and sound as data to create compelling messages for broader audiences.
+  The objective of the course is to develop abilities and tool for visualizing ideas and information, through the use of visual elements, typography, and sound as data to create compelling messages for broader audiences.
 
 - Design Studio Second Year (annual)
 

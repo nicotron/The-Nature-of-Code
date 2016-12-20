@@ -1,4 +1,4 @@
-Throughout entirely 2016 a group of four, two students from 2015 class and two professors, have been translating the book in a work structure based on GitHub workflow, professors have been working as a revisers/translators/professors, and student as translators/explorers. Students have been working on ideas that came up by understanding what they are translating and writing, and documenting them for Design School exhibitions. 
+Throughout entirely 2016 a group of four, two students from 2015 class and two professors, have been translating the book in a work structure baseid on GitHub workflow, professors have been working as a revisers/translators/professors, and student as translators/explorers. Students have been working on ideas that came up by understanding what they are translating and writing, and documenting them for Design School exhibitions. 
 
 Once the Latin American network be build, the material generated and University dependencies will be open to make several kind of events to spread the work of the Processing Foundation, and the communication of Processing language.
 
