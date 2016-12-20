@@ -2,13 +2,13 @@ Throughout 2015 Universidad del Desarrollo Associate Dean of Design School and I
 
 There was when I saw a problem/oportunity, the rich and complex content it was only available in english, this create a linguistic barrier in learning a new programming language that reflects frustration in learning leading to drop out. So I decided the best way was to first translate the book, translate to understand; understand to write code; and with those two tool, students were able to write more complex code and explain and teach others in our own language.
 
-With that, throughout entirely 2016 a group of four, two motivated girls from 2015 class, Sergio Majluf and I, have been translating the book in a work structure based on GitHub workflow, Sergio and I have been working as a revisers/translators/teachers, and the girls as translators/explorers. 
+With that, throughout entirely 2016 a group of four, two motivated girls from 2015 class, Sergio Majluf and I, have been translating the book in a work structure based on GitHub workflow, Sergio and I have been working as a revisers/translators/professors, and the girls as translators/explorers. 
 
 The objective is not just to translate Daniel Shiffman's book, but to do it a way, that any person throughout Latin America, with the same goals as my students, could understand the content in the book and not struggle in any given moment with what the book is saying.
 
-To asure that the translation is in a neutral Latin American spanish, I will work on building a network of teachers and educators from network of schools that the Universidad del Desarrollo has and the Processign Community, reaching a mayor and better amount of revisers (spanish and programming teachers) and translators (undergrade and postgrade students)
+To asure that the translation is in a neutral Latin American spanish, I will work on building a network of professors and educators from network of schools that the Universidad del Desarrollo has and the Processign Community, reaching a mayor and better amount of revisers (spanish and programming professors) and translators (undergrade and postgrade students)
 
-Getting the book translated by this new, broad and divers network throughout Latin America is a result of the main objetive of this Fellowship Application, to have a network of teachers, educatros and students, capable to translate any source of knowledge that the Processing Foundation have and will create in the future, in fewer time and better quality, making a step in develop contemporary content to spanish speacking community.
+Getting the book translated by this new, broad and divers network throughout Latin America is a result of the main objetive of this Fellowship Application, to have a network of professors, educatros and students, capable to translate any source of knowledge that the Processing Foundation have and will create in the future, in fewer time and better quality, making a step in develop contemporary content to spanish speacking community.
 
 
 
