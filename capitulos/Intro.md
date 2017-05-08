@@ -193,7 +193,7 @@ Crea un caminante aleatorio con tendendia a moverse hacia abajo y a la derecha. 
 
 ## I.3 Probabilidad y Distribución No-Uniforme
 
-¿Recuerdas cuando empezaste a programar por primera vez en Processing? Quizás quisiste dibujar muchos círculos en la pantalla. Entonces te dijiste: "Oh, ya sé. Dibujaré todos estos círculos en posiciones aleatorias, con tamaños aleatorios y colores aleatorios." En un sistema de gráficos computacionales a menudo es fácil llenar un sistema con aleatoriedad. En este libro, sin embargo, estamos buscando construir sistemas modelados en lo que vemos en la naturaleza. Dejar todo a la aleatoriedad no es particularmente una solución acertiv a un problema de diseño —en particular, el tipo de problemas que implican crear una simulación orgánica o de aspecto natural.
+¿Recuerdas cuando empezaste a programar por primera vez en Processing? Quizás quisiste dibujar muchos círculos en la pantalla. Entonces te dijiste: "Oh, ya sé. Dibujaré todos estos círculos en posiciones aleatorias, con tamaños aleatorios y colores aleatorios." En un sistema de gráficos computacionales a menudo es fácil llenar un sistema con aleatoriedad. En este libro, sin embargo, estamos buscando construir sistemas modelados en lo que vemos en la naturaleza. Dejar todo a la aleatoriedad no es particularmente una solución acertiva un problema de diseño —en particular, el tipo de problemas que implican crear una simulación orgánica o de aspecto natural.
 
 Con algunos trucos, podemos cambiar la manera en que usamos `random()` para producir distribuciones "no-uniformes" de números aleatorios. Ésto nos será muy útil a través del libro mientras a un número de diferentes escenarios. Cuando examinamos algoritmos genéticos, por ejemplo, necesitaremos una metodología para representar la "selección" —¿cuales miembros de nuesta población deberán ser seleccionados para traspasar su ADN hacia la próxima generación? ¿Recuerdas el concepto de la supervivencia del mejor adaptado? Digamos que tenemos una población de monos evolucionando. No cada mono tendrá las mismas chances de reproducción. Para simular la evolución Darwiniana, no podemos simplemente tomar dos monos aleatoriamente para ser padres. Necesitamos el mejor "adaptado" para ser el más probable de ser elegido. Necesitamos definir la "probabilidad del mejor adaptado." Por ejemplo, un mono particularmente rápido y fuerte tiene un 90% de chance de procreación, mientras que uno débil tiene sólo una chance de 10%.
 
@@ -237,7 +237,7 @@ int indice = int(random(cosas.length)); //Elige un elemento de la lista aleatori
 
 Correr este código entregará un 40% de chance de imprimir el valor 1, un 20% de chance de imprimir un 2, y un 40% de chance de imprimir un 3.
 
-También podemos pedir por un número aleatorio (hagámoslo más fácil y sólo consideremos un número aleatorio de punto flotante entre 0 y 1) y permitámosle a un evento que ocurra sólo si nouestro número aleatorio es entre cierto rango. Por ejemplo:
+También podemos pedir por un número aleatorio (hagámoslo más fácil y sólo consideremos un número aleatorio de punto flotante entre 0 y 1) y permitámosle a un evento que ocurra sólo si nuestro número aleatorio es entre cierto rango. Por ejemplo:
 
 ```java
 float probabilidad = 0.10; // Una probabilidad de 10%
