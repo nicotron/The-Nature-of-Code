@@ -1,0 +1,1031 @@
+<section data-type="introduction" id="_introduction">
+<h1>Introducción</h1>
+
+<blockquote data-type="epigraph">
+<p>“Soy dos con la naturaleza.”</p>
+
+<p data-type="attribution">— Woody Allen</p>
+</blockquote>
+
+<p>Nos encontramos aquí: en el inicio. Bueno, casi en el inicio. Si ha pasado un tiempo desde que has escrito cualquier tipo de programación en Processing (o cualquier tipo de matemáticas), esta introducción llevará tu mente de regreso hacia el pensamiento computacional antes de que nos acerquemos a materiales más difíciles y complejos.</p>
+
+<p>En el Capítulo 1, vamos a hablar acerca del concepto de un vector y cómo nos puede servir de manera de un building block para la simulación de movimiento a lo largo del libro. Pero antes de que demos ese paso, pensemos lo que significa que algo simplemente se mueva por la pantalla. Comencemos con uno de las simulaciones de moviemiento más conocidas — El caminante aleatorio.</p>
+
+<section data-type="sect1" id="intro_section1">
+<h2>I.1 Caminata Aleatoria</h2>
+
+<a data-primary="random walks" data-type="indexterm"></a>
+
+<p>Imagina que estás de pie en medio de una barra de equilibrio. Cada diez segundos lanzas una moneda al aire. Cara, das un paso hacia adelante. Sello, das un paso hacia atrás. Esto define una caminata aleatoria —un camino definido por una serie de pasos aleatorios. Llevando la barra de equilibrio hacia el suelo, podrías realizar un paseo aleatorio en dos dimensiones, lanzando la moneda dos veces con los siguients resultados:</p>
+
+<table>
+	<thead>
+		<tr>
+			<th>Lanzamiento  1</th>
+			<th>Lanzamiento  2</th>
+			<th>Resultado</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>
+			<p>Cara</p>
+			</td>
+			<td>
+			<p>Cara</p>
+			</td>
+			<td>
+			<p>Paso hacia adelante.</p>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			<p>Cara</p>
+			</td>
+			<td>
+			<p>Sello</p>
+			</td>
+			<td>
+			<p>Paso hacia la derecha.</p>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			<p>Sello</p>
+			</td>
+			<td>
+			<p>Cara</p>
+			</td>
+			<td>
+			<p>Paso hacia la izquierda.</p>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			<p>Sello</p>
+			</td>
+			<td>
+			<p>Sello</p>
+			</td>
+			<td>
+			<p>Paso hacia atrás.</p>
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+<p>Pareciera que es particularmente un algoritmo poco sofisticado. Sin embargo, las caminata aleatorias pueden ser usadas para modelar fenómenos que ocurren en el mundo real, desde el movimiento de moléculas en un gas, hasta el comportamiento de un apostador a lo largo de un día en el casino. En cuanto a nosotros, empezaremos este libro estudiando un paseo aleatorio con tres metas en mente.</p>
+
+<a data-primary="natural phenomena" data-secondary="modeling with random walks" data-type="indexterm"></a>
+
+<ol>
+	<li>
+	<p>Necesitamos repasar un concepto de programación central —Programación Orientada a Objetos. El caminante aleatorio nos servirá como modelo para que el diseño orientado a objetos que usemos haga que cosas se muevan dentro de la ventana de Processing.</p>
+	</li>
+	<li>
+	<p>La caminata aleatoria induce las dos preguntas que nos haremos a través de todo este libro: "¿Cómo definimos las reglas que gobiernan el comportamiento de nuestros objetos?" y luego "¿Cómo implementamos estas reglas en Processing?"</p>
+	</li>
+	<li>
+	<p>A través del libro, periódicamente necesitaremos un entendimiendo básico de aleatoriedad, probabilidad y Perlin Noise. La caminata aleatoria nos permitirá demostrar algunos puntos importantes que nos serán útiles más adelante.</p>
+	</li>
+</ol>
+</section>
+
+<section data-type="sect1" id="intro_section2">
+<h2>I.2 La Clase del Caminante Aleatorio</h2>
+<p><em>En Processing se escribe 'class' pero usaremos la palabra clase.</em></p>
+
+<a data-primary="object-oriented programming" data-secondary="review of" data-type="indexterm"></a> <a data-primary="Processing" data-secondary="review of object-oriented programming with" data-type="indexterm"></a>
+
+<p>Repasemos un poco la programación orientada a objetos (POO) primero, construyendo un objeto <span class="klass">Caminante</span>. Esta será solamente un revisión superficial. Si nunca has trabajado con POO antes, y tal vez quieras algo más comprensible; Te sugiero detenerte aquí y revisar <a href="http://processing.org/learning/objects/">los conceptos básicos de Processing</a> en el sitio web antes de continuar.</p>
+
+<a data-primary="object" data-secondary="defined" data-type="indexterm"></a> <a data-primary="object-oriented programming" data-secondary="object" data-type="indexterm"></a>
+
+<p>Un <strong><em>objecto</em></strong> en Processing es una entidad que tiene datos y funcionalidad. Estamos tratando de diseñar un objeto <span class="klass">Caminante</span> que a la vez que lleva el seguimiento de sus propios datos (donde existe en la pantalla) y tiene la capacidad de realizar ciertas acciones (así como dibujarse a sí mismo o dar un paso).</p>
+
+<a data-primary="class (Processing)" data-secondary="defined" data-type="indexterm"></a> <a data-primary="object-oriented programming" data-secondary="class" data-type="indexterm"></a>
+
+<p>Una <strong><em>class</em></strong> es la plantilla para construir casos reales de objetos. Piensa en una classe como el cortador de galletas: los objetos son las galletas en sí.</p>
+
+<p>Comenzemos por definir la clase <span class="klass">Caminante</span> lo que significa ser un objeto <span class="klass">Caminante</span>. El <span class="klass">Caminante</span> sólo necesita dos piezas de datos —un número para su posición en x y uno para su posición en y.</p>
+
+<pre data-code-language="java" data-type="programlisting" class="codesplit">
+class Caminante {
+  // Objetos tienen datos.
+  int x;
+  int y;</pre>
+
+<a data-primary="class (Processing)" data-secondary="constructor" data-type="indexterm"></a> <a data-primary="constructor" data-type="indexterm"></a>
+
+<p>Cada clase debe tener un constructor, una función especial que es llamada cuando el objeto se crea por primera vez. Puedes pensarla como el <span class="function">setup()</span>del objeto. Ahí, inicializaremos la posición inicial del <span class="klass">Caminante</span><code>’</code> (en este caso, el centro de la pantalla).</p>
+
+<pre data-code-language="java" data-type="programlisting" class="codesplit">
+  //Objetos tienen un constructor en donde son inicializados.
+  Caminante() {
+    x = width/2;
+    y = height/2;
+  }</pre>
+
+<a data-primary="class (Processing)" data-secondary="functionality" data-type="indexterm"></a> <a data-primary="functionality" data-type="indexterm"></a>
+
+<p>Finalmente, además de los datos, las clases pueden ser definidas con funcionalidad. En este ejemplo, un <span class="klass">Caminante</span> tiene dos funciones. Primero escribiremos una función que permita al objeto mostraste a sí mismo (como un punto blanco).</p>
+
+<pre data-code-language="java" data-type="programlisting" class="codesplit">
+  // Objetos tienen funciones.	
+  void mostrar() {
+    stroke(0);
+    point(x,y);
+  }</pre>
+
+<p>La segunda función dirige al objeto <span class="klass">Caminante</span> para que de un paso. Ahora, aquí es donde las cosas se vuelven un poco más interesantes. ¿Recuerdas el piso en donde estábamos dando pasos aleatorios? Bueno, ahora podemos usar una ventana de Processing con esa misma capacidad. En donde hay cuatro posibles pasos. Un paso hacia la derecha puede ser simulado a través del increimente de <span class="var">x</span> (<span class="var">x</span><code>++</code>); hacia la izquierda con el decremento de <span class="var">x</span> (<span class="var">x--</span>); hacia adelante yendo un píxel hacia abajo (<span class="var">y++</span>); y hacia atrás yendo un píxel hacia arriba (<span class="var">y--</span>). ¿Cómo elegimos desde estas cuatro opciones? Previamente declaramos que podríamos lanzar dos monedas. En Processing, sin embargo, cuando queremos elegir aletaoriamente entre una lista de opciones, podemos elegir un número aleatorio usando <span class="function">random()</span>.</p>
+
+<a data-primary="random number generators" data-secondary="random() function" data-type="indexterm"></a> <a data-primary="random() function" data-type="indexterm"></a>
+
+<pre data-code-language="java" data-type="programlisting" class="codesplit">
+  void paso() {
+    // 0, 1, 2, or 3
+    int alternativa = int(random(4));</pre>
+
+<p>La línea de código superior elige un número de punto flotante entre 0 y 4 y lo conviernte en un entero, con un resultado de 0, 1, 2, o 3. Técnicamente hablando, el número más grande nunca será 4.0, sino que 3.999999999 (con tantos 9 como espacios de decimal existentes); como en el proceso de convertir a un entero se elimina la parte decimal, el <span class="var">int</span> más alto que obtendramos será 3. A continuación, tomamos el paso apropiado (izquierda, derecha, arriba, o abajo) dependiendo de cual número aleatorio fue elegido.</p>
+
+<pre data-code-language="java" data-type="programlisting" class="codesplit">
+    //{!9} La "alternativa" aleatoria determina nuestro paso.
+    if (alternativa == 0) {
+      x++;
+    } else if (alternativa == 1) {
+      x--;
+    } else if (alternativa == 2) {
+      y++;
+    } else {
+      y--;
+    }
+  }
+}</pre>
+
+<p>Ahora que hemos escrito la clase, es momento de crear un objeto <span class="klass">Caminante</span> actual en la parte principal de nuestro dibujo—<span class="function">setup()</span> y <span class="function">draw()</span>. Asumiento que estamos buscando modelar una caminata aleatoria singular, declaramos una variable globar del tipo <span class="var">Caminante</span>.</p>
+
+<pre data-code-language="java" data-type="programlisting" class="codesplit">
+// Un objeto Caminante
+Caminante c;</pre>
+
+<a data-primary="new operator (objects)" data-type="indexterm"></a> <a data-primary="object" data-secondary="new operator" data-type="indexterm"></a>
+
+<p>Luego creamos el objeto en <span class="function">setup()</span> llamando al constructor con el operador <span class="function">new</span>.</p>
+
+<div data-type="example">
+<h5>Ejemplo I.1: Caminata aleatoria tradicional</h5>
+</div>
+
+<p><em>Cada vez que veas el título Ejemplo en este libro, quiere decir que existe el correspondiente ejemplo en código disponible en <a href="http://github.com/shiffman/The-Nature-of-Code-Examples">GitHub</a>.</em></p>
+
+<pre data-code-language="java" data-type="programlisting" class="codesplit">
+void setup() {
+  size(640,360);
+  // {!1 .bold} rear el Caminante.
+  c = new Caminante();
+  background(255);
+}</pre>
+
+<p>Finalmente, durante cada ciclo a través de <span class="function">draw()</span>, le pedimos al <span class="klass">Caminante</span> que de un paso y dibuje un punto.</p>
+
+<pre data-code-language="java" data-type="programlisting" class="codesplit">
+void draw() {
+  //{!2 .bold} Llama a las funciones en el Caminante.
+  c.paso();
+  c.mostrar();
+}</pre>
+
+<p>Ya que solamente dibujamos el fondo una vez en <span class="function">setup()</span>, en lugar de limpiarlo continuamente cada vez en <span class="function">draw()</span>, vemos el rastro de la caminata aleatoria en nuestra ventana de Processing.</p>
+
+<figure class="screenshot" data-pde="processingjs/intro/_I_1_RandomWalkTraditional/_I_1_RandomWalkTraditional.pde processingjs/intro/_I_1_RandomWalkTraditional/Walker.pde"><img alt="intro ex01" src="intro/intro_ex01.png" />
+<figcaption>&nbsp;</figcaption>
+</figure>
+
+<p>Hay una serie de mejoras que podemos hacer al caminante aleatorio. Por un lado, las alternativas de pasos que tiene el <span class="klass">Caminante</span> están limitadas a cuatro opciones —arriba, abajo, izquierda, y derecha. Pero, cualquier píxel en la ventana tiene ocho posibles vecinos, y una novena posibilidad es quedarse en el mismo lugar.</p>
+
+<figure id="intro_figure1"><img alt="Figure I.1" src="intro/intro_01.png" />
+<figcaption>Figura I.1</figcaption>
+</figure>
+
+<p>Para implementar un objeto <span class="klass">Caminante</span> que pueda dar un paso hacia cualquier píxel vecino (o no moverse), podemos elegir un número entre 0 y 8 (nueve posibles alternativas). Sin embargo, una manera más eficiente de escribir el código sería simplemente elegir entre tres posibles pasos en el eje x (-1, 0, o 1) y tres posibles pasos en el eje y.</p>
+
+<pre data-code-language="java" data-type="programlisting" class="codesplit">
+  void paso() {
+    //{!2} Entrega -1, 0, or 1
+    int pasox = int(random(3))-1;
+    int pasoy = int(random(3))-1;
+    x += pasox;
+    y += pasoy;
+  }</pre>
+
+<p>Llevando esto más adelante, podemos usar números de punto flotante (p.ej. númers decimales) para x e y, y mover de acuerdo a un valor arbitrario aleatorio entre -1 y 1.</p>
+
+<pre data-code-language="java" data-type="programlisting" class="codesplit">
+  void paso() {
+    //{!2} Entrega cualquier número de punto flotante entre -1.0 y 1.0
+    float pasox = random(-1, 1);
+    float pasoy = random(-1, 1);
+    x += pasox;
+    y += pasoy;
+  }</pre>
+
+<p>Todas estas variaciones en la caminada aleatoria "tradicional" tienen una cosa en común: en cualquier momento en el tiempo, la probabilidad de que el <span class="klass">Caminante</span> de un paso en una dirección específica es igual a la probabilidad de que el <span class="klass">Caminante</span> de un paso en cualquier dirección. En otras palabras, si hay cuatro posibles pasos, hay 1 en 4 (o 25%) chances de que el <span class="klass">Caminante</span> tome una de esos pasos. Con nueve posibles pasos, es 1 en 9 (o 11%) chances.</p>
+
+<a data-primary="random number generators" data-secondary="uniform number distributions and" data-type="indexterm"></a> <a data-primary="uniform number distributions" data-type="indexterm"></a>
+
+<p>Convenientemente, así es como la función <span class="function">random()</span> funciona. El generador de números aleatorios de Processing (que trabaja detrás de cámaras) produce lo que es conocida como una distribución de numeros "uniforme". Podemos probar esta distribución con un sketch de Processing que cuenta cada vez qye un número aleatorio es elegido y lo grafica como la altura de un rectángulo.</p>
+
+<figure class="screenshot" data-pde="processingjs/intro/_I_2_RandomDistribution/_I_2_RandomDistribution.pde"><img alt="intro ex02" src="intro/intro_ex02.png" />
+<figcaption>&nbsp;</figcaption>
+</figure>
+
+<div data-type="example">
+<h5>Ejemplo I.2: Distribución aleatoria de números</h5>
+</div>
+
+<pre data-code-language="java" data-type="programlisting" class="codesplit">
+//{!1} Una lista para seguir la cuenta de cuan seguidos los números aleatorios son elegidos
+int[] cuentasAleatorias;
+
+void setup() {
+  size(640, 240);
+  cuentasAleatorias = new int[20];
+}
+
+void draw() {
+  background(255);
+
+  //{!2} Toma un número aleatorio e incrementa la cuenta
+  int indice = int(random(cuentasAleatorias.length));
+  cuentasAleatorias[indice]++;
+
+  stroke(0);
+  fill(175);
+  int ancho = width/cuentasAleatorias.length;
+  //{!3} Graficando los resultados
+  for (int x = 0; x &lt; cuentasAleatorias.length; x++) {
+    rect(x*w, height-cuentasAleatorias[x],
+		     w-1, cuentasAleatorias[x]);
+  }
+}</pre>
+
+<p>La captura de pantalla superior muestra los resultados del sketch corriendo por unos minutos. Notemos como cada barra del gráfico difiere en altura. El tamaño de nuestra muestra (p.ej. el número de números aleatorios que hemos elegido) es más bien pequeño y hay algunas discrepancias ocasionales, donde algunos números son elegidos más a menudo. A través del tiempo, con un bueno generador de números aleatorios, esto podría igualar.</p>
+
+<a data-primary="pseudo-random numbers" data-type="indexterm"></a> <a data-primary="random number generators" data-secondary="pseudo-random numbers" data-type="indexterm"></a>
+
+<div data-type="note">
+<h2>Números Seudo-Aleatorios</h2>
+
+<p>Los números aleatorios que obtenemos de la función <span class="function">random()</span> no son verdaderamente aleatorios;  por lo tanto se conocen como "seudo-aleatorios." Son el resultado de una función matemática que simula aleatoriedad. Esta función producirá un patrón a través del tiempo, pero ese período de tiempo es tan largo que para nosotros, ¡es tan bueno como aleatoriedad pura!</p>
+</div>
+
+<div data-type="exercise" id="intro_exercise1">
+<h5>Ejercicio I.1</h5>
+
+<p>Crea un caminante aleatorio con tendendia a moverse hacia abajo y a la derecha. (Veremos la solución en la siguiente sección.)</p>
+</div>
+</section>
+
+<section data-type="sect1" id="intro_section3">
+<h2>I.3 Probabilidad y Distribución No-Uniforme</h2>
+
+<a data-primary="natural phenomena" data-secondary="modeling with the random() function" data-type="indexterm"></a> <a data-primary="non-uniform distributions" data-secondary="probability and" data-type="indexterm"></a> <a data-primary="distributions" data-secondary="non-uniform" data-tertiary="probability and" data-type="indexterm"></a> <a data-primary="probability" data-secondary="non-uniform distributions and" data-type="indexterm"></a> <a data-primary="random number generators" data-secondary="non-uniform distributions" data-tertiary="creating" data-type="indexterm"></a> <a data-primary="random() function" data-secondary="natural phenomena" data-tertiary="modeling with" data-type="indexterm"></a>
+
+<p>¿Recuerdas cuando empezaste a programar por primera vez en Processing? Quizás quisiste dibujar muchos círculos en la pantalla. Entonces te dijiste: "Oh, ya sé. Dibujaré todos estos círculos en posiciones aleatorias, con tamaños aleatorios y colores aleatorios." En un sistema de gráficos computacionales a menudo es fácil llenar un sistema con aleatoriedad. En este libro, sin embargo, estamos buscando construir sistemas modelados en lo que vemos en la naturaleza. Dejar todo a la aleatoriedad no es particularmente una solución acertiv a un problema de diseño —en particular, el tipo de problemas que implican crear una simulación orgánica o de aspecto natural.</p>
+
+<a data-primary="probability of the fittest" data-type="indexterm"></a>
+
+<p>Con algunos trucos, podemos cambiar la manera en que usamos <span class="function">random()</span> para producir distribuciones "no-uniformes" de números aleatorios. Ésto nos será muy útil a través del libro mientras a un número de diferentes escenarios. Cuando examinamos algoritmos genéticos, por ejemplo, necesitaremos una metodología para representar la "selección" —¿cuales miembros de nuesta población deberán ser seleccionados para traspasar su ADN hacia la próxima generación? ¿Recuerdas el concepto de la supervivencia del mejor adaptado? Digamos que tenemos una población de monos evolucionando. No cada mono tendrá las mismas chances de reproducción. Para simular la evolución Darwiniana, no podemos simplemente tomar dos monos aletaoriamente para ser padres. Necesitamos el mejor "adaptado" para ser el más probable de ser elegido. Necesitamos definir la "probabilidad del mejor adaptado." Por ejemplo, un mono particularmente rápido y fuerte tiene un 90% de chance de procreación, mientras que uno débil tiene sólo una chance de 10%.</p>
+
+<a data-primary="probability" data-type="indexterm"></a>
+
+<p>Hagamos una pausa aquí y miremos los principios básicos de probabilidad. Primero examinémos un único evento de probabilidad, p. ej. la probabilidad que ocurra un dado evento.</p>
+
+<p>Si tienes un sistema de ciertos números como posibles resultados, la probabilidad de que un evento dado ocurra es igual al número de resultados que califican como ese evento, dividido por el número total de todos los posibles resultados. Lanzar una moneda es un ejemplo sencillo —tiene sólo dos posibles resultados, cara o sello. Hay sólo una forma de aparezca cara. La probabilidad de que la moneda resulte como cara, por lo tanto, es uno dividido por dos: 1/5 o 50%.</p>
+
+<p>Toma una baraja de cincuenta y dos cartas. La probabilidad de elegir un as desde el mazo es:</p>
+
+<p><span class="formula">número de aces / número de cartas = 4 / 52 = 0.077 = ~ 8%</span></p>
+
+<p>La probabilidad de elegir un diamante es:</p>
+
+<p><span class="formula">número de diamantes/ número de cartas = 13 / 52 = 0.25 = 25%</span></p>
+
+<p>Podemos también calcular la probabilidad que multiples eventos ocurran en secuencia. Para hacer esto,  simplemente multiplicamos las probabilidades individuales de cada evento.</p>
+
+<p>La probabilidad de que una moneda de cara tres vecez seguidas es:</p>
+
+<p><span class="formula">(1/2) * (1/2) * (1/2) = 1/8 (or 0.125)</span></p>
+
+<p>…quiere decir que una moneda de cada tres veces seguidas es una en ocho (cada "vez" siendo tres lanzamientos).</p>
+
+<div data-type="exercise" id="intro_exercise2">
+<h5>Ejercicio I.2</h5>
+
+<p>¿Cuál es la probabilidad de que aparezcan dos aces seguidos de una baraja de cincuenta y dos cartas?</p>
+</div>
+
+<a data-primary="arrays" data-secondary="custom distributions" data-tertiary="creating with" data-type="indexterm"></a> <a data-primary="distributions" data-secondary="non-uniform" data-tertiary="creating with arrays" data-type="indexterm"></a> <a data-primary="non-uniform distributions" data-secondary="creating with arrays" data-type="indexterm"></a> <a data-primary="random() function" data-secondary="non-uniform distributions" data-tertiary="creating with" data-type="indexterm"></a>
+
+<p>Hay un par de maneras en donde podemos usar la función <span class="function">random()</span> con probabilidades en código. Una técnica es llenar una lista con una selección de números —con algunos de ellos se repiten— entonces elegir números aleatorios desde esa lista y generar eventos en base a esas opciones.</p>
+
+<pre data-code-language="java" data-type="programlisting" class="codesplit">
+int[] cosas = new int[5];
+//{!2} 1 es almacenado en la lista dos veces, haciendolo más fácil de ser elegido.
+cosas[0] = 1;
+cosas[1] = 1;
+
+cosas[2] = 2;
+cosas[3] = 3;
+stcosasuff[4] = 3;
+//Elige un elemento de la lista aletaoriamente
+int indice = int(random(cosas.length));</pre>
+
+<p>Correr este código entregará un 40% de chance de imprimir el valor 1, un 20% de chance de imprimir un 2, y un 40% de chance de imprimir un 3.</p>
+
+<p>También podemos pedir por un número aleatorio (hagámoslo más fácil y sólo consideremos un número aleatorio de punto flotante entre 0 y 1) y permitámosle a un evento que ocurra sólo si nouestro número aleatorio es entre cierto rango. Por ejemplo:</p>
+
+<pre data-code-language="java" data-type="programlisting" class="codesplit">
+// Una probabilidad de 10%
+float probabilidad = 0.10;
+// Un valor aleatorio de punto flotante entre 0 y 1
+float r = random(1);
+// Si nuestro número aleatorio es menor a 0.1, intenta nuevamente!
+if (r &lt; probabilidad) {
+  println("Intenta nuevamente!");
+}</pre>
+
+<p>Este método también puede ser aplicado a multiples resultados. Digamos que Resultado A tiene un 60% de chance de ocurrir, Resultado B, un 10% de chance, y Resultado C, un 30% de chance. Podemos implementar esto en código eligiendo un número flotante y viendo dentro del rango que cae.</p>
+
+<ul>
+	<li>
+	<p><em>entre 0.00 and 0.60 (60%) &ndash;&gt; Resultado A</em></p>
+	</li>
+	<li>
+	<p><em>entre 0.60 and 0.70 (10%) &ndash;&gt; Resultado B</em></p>
+	</li>
+	<li>
+	<p><em>entre 0.70 and 1.00 (30%) &ndash;&gt; Resultado C</em></p>
+	</li>
+</ul>
+
+<pre data-code-language="java" data-type="programlisting" class="codesplit">
+float numero = random(1);
+
+// Si el número es menor a 0.6
+if (numero &lt; 0.6) {
+  println("Resultado A");
+// Entre 0.6 y 0.7
+} else if (numero &lt; 0.7) {
+  println("Resultado B");
+// Mayor que 0.7
+} else {
+  println("Resultado C");
+}</pre>
+
+<p>Podemos usar la metodología superior para crear un Caminante Aleatorio que tienda a moverse hacia la derecha. Aquí hay un enemplo de un <span class="klass">Caminante</span> con las siguientes probabilidades:</p>
+
+<ul>
+	<li>
+	<p><em>chance de movimiento hacia arriba: 20%</em></p>
+	</li>
+	<li>
+	<p><em>chance de movimiento hacia abajo: 20%</em></p>
+	</li>
+	<li>
+	<p><em>chance de movimiento hacia la izquierda: 20%</em></p>
+	</li>
+	<li>
+	<p><em>chance de movimiento hacia la derecha: 40%</em></p>
+	</li>
+</ul>
+
+<figure class="screenshot" data-pde="processingjs/intro/_I_3_RandomWalkTendsToRight/_I_3_RandomWalkTendsToRight.pde processingjs/intro/_I_3_RandomWalkTendsToRight/Walker.pde"><img alt="intro ex03" src="intro/intro_ex03.png" />
+<figcaption>intro ex03&nbsp;</figcaption>
+</figure>
+
+<div data-type="example">
+<h5>Ejemplo I.3 Caminante que tienen a moverse hacia la derecha</h5>
+</div>
+
+<pre data-code-language="java" data-type="programlisting" class="codesplit">
+  void paso() {
+
+    float r = random(1);
+    //{!2} Un 40% de chance de que se mueva a la derecha!
+    if (r &lt; 0.4) {
+      x++;
+    } else if (r &lt; 0.6) {
+      x--;
+    } else if (r &lt; 0.8) {
+      y++;
+    } else {
+      y--;
+    }
+  }</pre>
+
+<div data-type="exercise" id="intro_exercise3">
+<h5>Ejercicio I.3</h5>
+
+<p>Crea un Caminante Aleatorio con posibilidades dinámicas. Por ejemplo, ¿puedes darle un 50% de chance de movimiento en la dirección de mouse?</p>
+</div>
+</section>
+
+<section data-type="sect1" id="intro_section4">
+<h2>I.4 Distribución normal de números aleatorios</h2>
+
+<p>Volvamos a la población simulada de monos de Processing. Tu programa genera mil objetos de Monos, cada uno con una altura entre 200 y 300 (ya que este mundo de monos tiene alturas entre 200 y 300 pixeles).</p>
+
+<pre data-code-language="java" data-type="programlisting" class="codesplit">
+float alto = random(200,300);</pre>
+
+<a data-primary="distributions" data-secondary="normal" data-type="indexterm"></a> <a data-primary="probability" data-secondary="normal distributions" data-type="indexterm"></a>
+
+<p>¿Es esto precisamente representativo de las alturas de los seres del mundo real? Piensa en una acera llena de gente en la ciudad de Nueva York. Escoge a una persona cualquiera de la calle y podría parecer que su altura es aleatoria. Sin embargo, no es el mismo tipo de aleatorio que <span class="function">random()</span> produce. Las alturas de las personas no son distribuidas uniformemente; hay una mayor cantidad de personas con alturas promedio que con alturas muy altas o muy bajas. Para simular la naturaleza, podríamos querer que fuera más probable que nuestros monos tuvieran una altura promedio (250 pixeles), pero dejándolos ser en ocasiones, muy altos o muy bajos.</p>
+
+<a data-primary="bell curve" data-type="indexterm"></a> <a data-primary="bell curve" data-secondary="mean and" data-type="indexterm"></a> <a data-primary="Gauss" data-secondary="Carl Friedrich" data-type="indexterm"></a> <a data-primary="Gaussian distribution" data-type="indexterm"></a> <a data-primary="Laplace" data-secondary="Pierre-Simon" data-type="indexterm"></a> <a data-primary="Laplacian distribution" data-type="indexterm"></a> <a data-primary="mean" data-type="indexterm"></a> <a data-primary="normal distribution" data-type="indexterm"></a> <a data-primary="probability" data-secondary="mean" data-type="indexterm"></a>
+
+<p>Una distribución de valores que se agrupan alrededor de un promedio (referido como la "media") es conocida como una distribución "normal". También es llamada como la distribución Gaussiana (llamada así por el matemático Carl Friedrich Gauss) ó, si eres francés, la distribución de Laplace (llamada así por Pierre-Simon Laplace). Ambos matemáticos estaban trabajando al mismo tiempo  en el siglo diecinueve en la definición de una distribución como tal.</p>
+
+<p>Cuando graficas la distribución, obtienes algo que se ve como lo siguiente, informalmente conocida como una curva de campana:</p>
+
+<figure class="two-col" id="intro_figure2"><img alt="Figure I.2" src="intro/intro_02.png" />
+<figcaption>Figura I.2</figcaption>
+</figure>
+
+<figure class="two-col" id="intro_figure3"><img alt="Figure I.3" src="intro/intro_03.png" />
+<figcaption>Figura I.3</figcaption>
+</figure>
+
+<a data-primary="mu (μ)" data-type="indexterm"></a> <a data-primary="sigma (σ)" data-type="indexterm"></a> <a data-primary="probability" data-secondary="standard deviation" data-type="indexterm"></a> <a data-primary="standard deviation" data-type="indexterm"></a>
+
+<p>La curva es generada por una función matemática que define la probabilidad de que ocurra un valor cualquiera como una función de la media (generalmente escrito como &mu;, la letra griega <em>mu</em>) y una desviación estándar (&sigma;, la letra griega <em>sigma</em>).</p>
+
+<p>La media es muy fácil de entender. En el caso de nuestros valores de altura entre 200 y 300, probablemente tendrás un sentido intuitivo de la media (p.ej. promedio) como 250. Sin embargo, ¿qué pasaría si te dijera que la desviación estándar es de 3 o 15? ¿Qué significaría esto para los números? Los gráficos de arriba deberían darnos una pista. El gráfico de la izquierda nos muestra la distribución con una desviación estándar muy baja, donde la mayoría de los valores se agrupan alrededor de una media. El gráfico de la derecha nos muestra una desviación estándar mayor, donde los valores son más propagados uniformemente desde el promedio.</p>
+
+<p>Los números funcionan de la siguiente manera: Teniendo una población, 68% de los miembros de esa población tendrán valores en el rango de una desviación estándar de la media, 98% dentro de dos desviaciones estándares, y 99,7% dentro de tres desviaciones estándares. Teniendo una desviación estándar de 5 pixeles, sólo el 0,3% de las alturas de los monos será menor que 235 pixeles (tres desviaciones estándares bajo la media de 250) ó mayor que 265 pixeles (tres desviaciones estándares sobre la media de 250).</p>
+
+<div data-type="note">
+<h2>Calculando la media y la desviación estándar</h2>
+
+<p>Considera un aula de diez estudiantes que reciben los siguientes puntajes (de 100) en un examen:</p>
+
+<p><em>85, 82, 88, 86, 85, 93, 98, 40, 73, 83</em></p>
+
+<p><strong><em>La media es el promedio: 81,3</em></strong></p>
+
+<a data-primary="standard deviation" data-secondary="calculating" data-type="indexterm"></a> <a data-primary="standard deviation" data-secondary="variance" data-type="indexterm"></a> <a data-primary="variance" data-type="indexterm"></a>
+
+<p>La desviación estándar es calculada como la raíz cuadrada del promedio de la raíz cuadrada de las desviaciones alrededor de la media. En otras palabras, toma la diferencia de la media por cada persona y elévalo al cuadrado (variante). Calcula el promedio de todos estos valores y toma la raíz cuadrada como la desviación estándar.</p>
+
+<table>
+	<thead>
+		<tr>
+			<th>Puntaje</th>
+			<th>Diferencia con la media</th>
+			<th>Variante</th>
+		</tr>
+	</thead>
+	<tfoot>
+		<tr>
+			<td>&nbsp;</td>
+			<td>
+			<p><strong>Variante promedio:</strong></p>
+			</td>
+			<td>
+			<p>228.81</p>
+			</td>
+		</tr>
+	</tfoot>
+	<tbody>
+		<tr>
+			<td>
+			<p>85</p>
+			</td>
+			<td>
+			<p>85-81.3 = 3.7</p>
+			</td>
+			<td>
+			<p>(3.7)<sup>2</sup> = 13.69</p>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			<p>40</p>
+			</td>
+			<td>
+			<p>40-81.3 = -41.3</p>
+			</td>
+			<td>
+			<p>(-41.3)<sup>2</sup> = 1705.69</p>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			<p>etc.</p>
+			</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+		</tr>
+	</tbody>
+</table>
+
+<p><strong><em>La desviación estándar es la raíz cuadrada de la variante promedio: 15,13</em></strong></p>
+</div>
+
+<a data-primary="Processing" data-secondary="Random class" data-type="indexterm"></a> <a data-primary="Random class (Processing)" data-type="indexterm"></a>
+
+<p>Afortunadamente para nosotros, al usar una distribución normal de números aleatorios en un sketch de Processing, no tenemos que hacer ninguno de estos cálculos. En lugar de eso, podemos usar una class llamada <span class="klass">Random</span>, la cual podemos obtener gratuitamente como parte de la librería por defecto de Java importada en Processing (para más información, ver <a href="http://docs.oracle.com/javase/6/docs/api/java/util/Random.html">la JavaDocs</a>).</p>
+
+<p>Para usar la class <span class="klass">Random</span>, primero debemos declarar una variable de tipo <span class="klass">Random</span> y crear el objeto <span class="klass">Random</span> en el <span class="function">setup()</span>.</p>
+
+<pre data-code-language="java" data-type="programlisting" class="codesplit">
+// Para la variable usamos el nombre "generador" porque lo que tenemos aquí, puede ser entendido como un generador de números aleatorios.
+Random generador;
+
+void setup() {
+  size(640, 360);
+  generador = new Random();
+}</pre>
+
+<a data-primary="nextGaussian() function (Random class)" data-type="indexterm"></a> <a data-primary="Random class (Processing)" data-secondary="nextGaussian() function" data-type="indexterm"></a>
+
+<p>Si queremos producir un número aleatorio con una distribución normal (ó Gaussiana) para cada vez que ejecutamos <span class="function">draw()</span>, es tan fácil como llamar a la función <span class="function">nextGaussian()</span>.</p>
+
+<pre data-code-language="java" data-type="programlisting" class="codesplit">
+void draw() {
+  //{!1} Pidiendo un número aleatorio Gaussiano. (Nota que nextGaussian() entrega un doble y debe ser convertido a float.)
+  float num = (float) generador.nextGaussian();
+}</pre>
+
+<p>Este el dilema. ¿Qué debemos hacer con este valor? ¿Qué pasaría si lo quisiéramos usar, por ejemplo, para asignar la posición en x de una forma que dibujamos en la pantalla?</p>
+
+<a data-primary="nextGaussian() function (Random class)" data-secondary="default mean/standard deviation settings of" data-type="indexterm"></a>
+
+<p>La función <span class="function">nextGaussian()</span> entrega una distribución normal de números aleatorios con los siguientes parámetros: <em>una media de cero</em> y <em>una desviación estándar de uno</em>. Digamos que queremos una media de 320 (el píxel del centro horizontal en una ventana de 640 de ancho) yuna desviación estándar de 60 pixeles. Podemos ajustar el valor a nuestros parámetros multiplicándolo con la desviación estándar y sumándole la media.</p>
+
+<figure class="screenshot" data-pde="processingjs/intro/_I_4_Gaussian/_I_4_Gaussian.pde"><img alt="intro ex04" src="intro/intro_ex04.png" />
+<figcaption>&nbsp;</figcaption>
+</figure>
+
+<div data-type="example">
+<h5>Ejemplo I.4: Distribución Gaussiana</h5>
+</div>
+
+<pre data-code-language="java" data-type="programlisting" class="codesplit">
+void draw() {
+  //{!1} Nota que nextGaussian() entrega un doble.
+  float num = (float) generador.nextGaussian();
+  float ds = 60;
+  float media = 320;
+
+  //{!1} Multiplica por la desviación estándar y súmale la media.
+  float x = ds * num + media;
+
+  noStroke();
+  fill(0,10);
+  ellipse(x,180,16,16);
+}</pre>
+
+<p>Dibujando las elipses una sobre la otra y con transparencia, podemos ver realmente la distribución.  El punto más brillante es cerca del centro, donde la mayoría de los valores de agrupan; pero de vez en cuando los círculos se dibujan más allá del centro hacia la derecha o la izquierda.</p>
+
+<div data-type="exercise" id="intro_exercise4">
+<h5>Ejercicio I.4</h5>
+
+<p>Considera la simulación de salpicaduras de pintura dibujada como una colección de puntos de colores. La mayoría de la pintura se agrupa alrededor de una ubicación central, pero algunos puntos salpican hacia los bordes. ¿Podrías usar una distribución normal de números aleatorios para generar las ubicaciones de los puntos? ¿Podrías también usar una distribución normal de números aleatorios para generar una paleta de colores?</p>
+</div>
+
+<a data-primary="random walks" data-secondary="Gaussian" data-type="indexterm"></a>
+
+<div data-type="exercise" id="intro_exercise5">
+<h5>Ejercicio I.5</h5>
+
+<p>Una caminata aleatoria Gaussiana es definida como una en la que el tamaño del paso (cuánto se mueve el objeto en una dirección determinada) es generada con una distribución normal. Implementa esta variación de nuestra caminata aleatoria.</p>
+</div>
+</section>
+
+<section data-type="sect1" id="intro_section5">
+<h2>I.5 Distribución personalizada de números aleatorios</h2>
+
+<a data-primary="distributions" data-secondary="custom" data-type="indexterm"></a> <a data-primary="Lévy flight" data-type="indexterm"></a> <a data-primary="non-uniform distributions" data-secondary="custom" data-type="indexterm"></a> <a data-primary="distributions" data-secondary="non-uniform" data-tertiary="custom" data-type="indexterm"></a> <a data-primary="oversampling" data-type="indexterm"></a> <a data-primary="random number generators" data-secondary="custom distributions" data-tertiary="creating" data-type="indexterm"></a> <a data-primary="random walks" data-secondary="Lévy flight" data-type="indexterm"></a> <a data-primary="random walks" data-secondary="oversampling" data-type="indexterm"></a>
+
+<p>Llegará algún momento en tu vida cuando no quieras una distribución de valores aleatorios, o una Guassiana. Imaginemos por un momento que tu eres un caminante aleatorio en busca de comida. Moverse aletaoriamente alrededor del espacio parece una estrategia razonable para encontrar algo para comer. Despúes de todo, tu no sabes donde está la comida, entonces podrías buscar aletaoriamente hasta encontrarlo. El problema, como ya habrás notado, es que el caminante aleatorio regresa a lugares visitados anteriormente muchas veces (esto es conocido como "sobremuestreo"). Una estrategia para evitar un problema como este, es que de vez en cuando, tome un paso más largo. Esto permite al caminante buscar aletaoriamente alrededor de una posición especifica mientas salta periodicamente muy lejos para reducir la cantidad de sobremuestre. Esta variación en la caminata aleatoria (conocida como vuelo de Lévy) requiere un conjunto personalizado de probabilidades. Aunque no es una implementación exacta del vuelo de Lévy, podemos declarar el estado de la distribución personalizada como el siguiente: mientras más largo el paso, menos posibilidades de ser elegido y mientras más corto el paso, mas posibilidades  de ser elegido.</p>
+
+<p>Anteriormente en el prólogo, vimos que podíamos generar una probabilidad de distribución personalizada llenando una lista con valores(algunos duplicados paraque puedan ser elegidos más frecuentemente) o probando el resultado <span class="function">random()</span>. Podemos implementar el vuelo de Lévy diciendo que hay 1% de probabilidad de que el caminante de un paso largo.</p>
+
+<a data-primary="arrays" data-secondary="Lévy flights" data-tertiary="implementing with" data-type="indexterm"></a> <a data-primary="Lévy flight" data-secondary="implementing with arrays" data-type="indexterm"></a>
+
+<pre data-code-language="java" data-type="programlisting" class="codesplit">
+float r = random(1);
+//{$3} 1% de probabilidad de tomar un paso largo
+if (r &lt; 0.01) {
+  xpaso = random(-100, 100);
+  ypaso = random(-100, 100);
+} else {
+  xpaso = random(-1, 1);
+  ypaso = random(-1, 1);
+}</pre>
+
+<a data-primary="Lévy flight" data-secondary="implementing with qualifying random values" data-type="indexterm"></a>
+
+<p>Sin embargo, esto reduce las probabilidades a un número fijo de opciones. ¿Y si queremos hacer una regla más general — mientras más grande el número, mayor opción de ser elegido? 3.145 tendría mas opciones de ser elegido que 3.144, incluso si esa probabilidad es solo un poquito más grande. en otras palabras, si <span class="var">x</span> es el número aleatorio, podríamos mapear la probabilidad en el eje y con <span class="var">y</span> = <span class="var">x</span>.</p>
+
+<figure id="intro_figure4"><img alt="Figure I.4" src="intro/intro_04.png" />
+<figcaption>Figura I.4</figcaption>
+</figure>
+
+<p>Si pudiéramos averiguar como generar una distrubución  de números aleatorios de acuerdo al gráfico de arriba, podríamos aplicar la misma metodología a cualquier curva en la cual tengamos una fórmula.</p>
+
+<a data-primary="non-uniform distributions" data-secondary="qualifying random values" data-type="indexterm"></a> <a data-primary="distributions" data-secondary="non-uniform" data-tertiary="qualifying random values" data-type="indexterm"></a> <a data-primary="qualifying random values" data-type="indexterm"></a>
+
+<p>Una solución es elegir dos números aleatorios en vez de uno. El primer número aleatorio es solo eso, un número aleatorio. El segundo, sin embargo, es lo que llamaríamos un "valor aleatorio que califica". Nos dirá si debemos utilizar el primero o desecharlo y elegir otro. Los números que tienen facilidad en calificar serán elegidos más a menudo, y los números que raramente califican serán elegidos con menor frecuencia. Acá están los pasos (por ahora, considera solo valores aleatorios entre 0 y 1):</p>
+
+<ol>
+	<li>
+	<p>Elige un número aleatorio: R1</p>
+	</li>
+	<li>
+	<p>Calcula una probabilidad P donde R1 debería calificar. Intentemos: P = R1.</p>
+	</li>
+	<li>
+	<p>Elige otro número aleatorio: R2</p>
+	</li>
+	<li>
+	<p>Si R2 es menor que P, encontramos nuestro numero—R1!</p>
+	</li>
+	<li>
+	<p>Si R2 no es menor que P, vulve al paso 1 y comienza de nuevo.</p>
+	</li>
+</ol>
+
+<p>Acá estamos diciendo que la probabilidad que un valor aleatorio califique es igual al número aleatorio en si mismo. Digamos que elegimos 0.1 para R1. Esto significa que R1 tendrá 10% de probabilidad de calificar. Si elegimos 0.83 para R1 entonces este tendrá 83% de probabilidad para calificar. Mientras mayor sea el número, mayor es la probabilidad de que realmente se use.</p>
+
+<a data-primary="Monte Carlo method" data-type="indexterm"></a> <a data-primary="non-uniform distributions" data-secondary="Monte Carlo method" data-type="indexterm"></a> <a data-primary="distributions" data-secondary="non-uniform" data-tertiary="Monte Carlo method" data-type="indexterm"></a> <a data-primary="qualifying random values" data-secondary="Monte Carlo method" data-type="indexterm"></a>
+
+Acá hay una función (llamada por el método de Monte Carlo, la cual fue llamada por el casino de Monte Carlo) que implementa el algoritmo de arriba, resultando un valor aleatorio entre 0 y 1.
+
+<pre data-code-language="java" data-type="programlisting" class="codesplit">
+float montecarlo() {
+  // Hacemos esto "por siempre" hasta que encontremos un valor calificable
+  while (true) {
+    // Elige un valor aleatorio
+    float r1 = random(1);
+    // Asigna una probabilidad
+    float probabilidad = r1;
+    // Elige otro valor
+    float r2 = random(1);
+
+    //{!3} ¿Califica? Si lo hace, estamos listos!
+    if (r2 &lt; probabilidad) {
+      return r1;
+    }
+  }
+}</pre>
+
+<div data-type="exercise" id="intro_exercise6">
+<h5>Ejercicio I.6</h5>
+
+<p>Usa una probabilidad de distribución personalizada para variar el tamaño de un paso dado por el caminante aleatorio. Este tamaño del paso puede ser determinado influenciando el rango de los valores elegidos. ¿Puedes mapear la probabilidad exponencialmente—p.ej. hacer que la probabilidad que un valor sea elegido es igual al valor al cuadrado?</p>
+
+<pre data-code-language="java" data-type="programlisting" class="codesplit">
+  //{!1} Distribución uniforme del tamaño de pasos. ¡Modifícalo!
+  float tam_paso = random(0, 10);
+
+  float pasox = random(-stepsize, stepsize);
+  float pasoy = random(-stepsize, stepsize);
+
+  x += pasox;
+  y += pasoy;</pre>
+
+<p>(Más tarde veremos como hacerlo más eficiente usando vectores.)</p>
+</div>
+</section>
+
+<section data-type="sect1" id="intro_section6">
+<h2>I.6  Perlin Noise (Un acercamiento mas fluido)</h2>
+
+<a data-primary="natural phenomena" data-secondary="Perlin noise and" data-type="indexterm"></a> <a data-primary="non-uniform distributions" data-secondary="Perlin noise" data-type="indexterm"></a> <a data-primary="distributions" data-secondary="non-uniform" data-tertiary="Perlin noise" data-type="indexterm"></a> <a data-primary="Perlin noise" data-secondary="natural phenomena" data-tertiary="modeling with" data-type="indexterm"></a> <a data-primary="&lt;em&gt;Tron&lt;/em&gt; (1982)" data-type="indexterm"></a>
+
+<p>Un buen generador de números aleatorios, produce valores que no tienen relación entre si y no muestran patrones detectables. Como hemos comenzado a ver, un poco de aleatoriedad puede ser un buen elemento cuando se quiere lograr programación orgánica, es decir, crear comportamientos mas real. Sin embargo, la aleatoriedad como principio no es necesariamente natural. Un algoritmo conocido como "Perlin noise", nombrado así por su inventor Ken Perlin, toma este concepto en cuenta. Perlin desarrollo la función de noise -ruido- mientras trabajaba en la película Tron a principios de la década de 1980;  fue diseñado para crear texturas para efectos generados por computador. En 1997 Ken Perlin ganó un Premio de la Academia por los logros técnicos de su trabajo. Perlin noise puede ser usado para generar varios efectos con atributos naturales, como nubes, paisajes y patrones texturizados como el mármol.</p>
+
+<a data-primary="naturally ordered sequence of numbers" data-type="indexterm"></a> <a data-primary="pseudo-random numbers" data-secondary="Perlin noise and" data-type="indexterm"></a>
+
+<p>Perlin noise tiene una apariencia mas orgánica gracias a que produce una secuencia de números pseudo aleatorios, ordenados naturalmente. El gráfico que se ve a la izquierda muestra Perlin noise a través del tiempo, el eje x representa el tiempo; observa la fluidez de la curva. El gráfico de la derecha exhibe aleatoriedad pura de números durante el tiempo. (El código para generar estos gráficos esta disponible en el libro adjunto en las descargas). </p>
+
+<figure class="two-col"><img alt="Figure I.5: Noise" src="intro/intro_05.png" />
+<figcaption>Figure I.5: Noise&nbsp;</figcaption>
+</figure>
+
+<figure class="two-col"><img alt="Figure I.6: Random" src="intro/intro_06.png" />
+<figcaption>Figure I.6: Random&nbsp;</figcaption>
+</figure>
+
+<a data-primary="noise() function (Processing)" data-type="indexterm"></a> <a data-primary="Perlin noise" data-secondary="noise() function (Processing)" data-type="indexterm"></a> <a data-primary="Processing" data-secondary="noise() function" data-type="indexterm"></a>
+
+<p>Processing tiene un implemento construido para el algoritmo Perlin noise: la función<span class="function">noise()</span><span class="function">noise()</span>. Esta función toma una, dos o tres argumentos, dependiendo de si noise es calculado en una, dos o tres dimensiones. Comencemos por observando noise unidimensional.</p>
+
+<a data-primary="noiseDetail() function (Processing)" data-type="indexterm"></a> <a data-primary="Processing" data-secondary="noiseDetail() function" data-type="indexterm"></a>
+
+<div data-type="note">
+<h2 id="noise-detail">Noise Detail</h2>
+
+<p>La <a href="http://processing.org/reference/noise_.html">referencia noise</a> de Processing dice que esta es calculada sobre varias "octavas". Llamar la función <a href="http://processing.org/reference/noiseDetail_.html"><span class="function">noiseDetail()</span></a> va a cambiar el numero de la octava y su importancia relativa entre una y otra. Esto a su vez va a cambiar como la función noise se comporta.</p>
+
+<p>Para aprender mas sobre como funciona noise, Ken Perlin <a href="http://www.noisemachine.com/talk1/">Ken Perlin</a> ofrece una conferencia en línea donde explica más el tema.</p>
+</div>
+
+<p>Dibuja un circulo en la ventana de Processing, con la posición de x aleatoria.</p>
+
+<pre data-code-language="java" data-type="programlisting" class="codesplit">
+// posición aleatoria de x
+float x = random(0, width);
+ellipse(x, 180, 16, 16);</pre>
+
+<p>Ahora, en vez de una locación de x simplemente aleatoria, vamos a asignar su locación con Perlin noise, que es mas suave. Probablemente pensaras que lo único que se necesita hacer es reemplazar la función <span class="function">random()</span> por <span class="function">noise()</span>,p. ej.</p>
+
+<pre data-code-language="java" data-type="programlisting" class="codesplit">
+//{.line-through} Posición de x por noise?
+float x = noise(0, width);</pre>
+
+<a data-primary="noise() function (Processing)" data-secondary="arguments for" data-type="indexterm"></a>
+
+<p>Conceptualmente, esto es exactamente lo que queremos hacer, calcular el valor de x entre 0 y width -ancho-  acorde a Perlin noise, pero esta no es la forma de implementarlo. Mientras el argumento para la función <span class="function">random()</span> especifica un rango de valores entre un valor mínimo y maximo, <span class="function">noise()</span> no funciona de esta manera. A diferencia, el rango de resultados es arreglado, siempre retorna a valores entre 0 y 1. Veremos en un momento como podemos abordarlo de manera mas simple con la función <span class="function">map()</span> pero primero vamos a examinar los argumentos que <span class="function">noise()</span> espera que declaremos.</p>
+
+<p>Para entender mejor a Perlin noise noise uni-dimensional, tratemos pensarlo como una secuencia de valores en el tiempo. Por ejemplo:</p>
+
+<table>
+	<thead>
+		<tr>
+			<th>Tiempo</th>
+			<th>Valor de Noise</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>
+			<p>0</p>
+			</td>
+			<td>
+			<p>0.365</p>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			<p>1</p>
+			</td>
+			<td>
+			<p>0.363</p>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			<p>2</p>
+			</td>
+			<td>
+			<p>0.363</p>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			<p>3</p>
+			</td>
+			<td>
+			<p>0.364</p>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			<p>4</p>
+			</td>
+			<td>
+			<p>0.366</p>
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+<p>Ahora, para poder acceder a un valor de noise en particular, debemos expresar un "momento especifico del tiempo" a la función <span class="function">noise()</span>  Por ejemplo:</p>
+
+<pre data-code-language="java" data-type="programlisting" class="codesplit">
+float n = noise(3);</pre>
+
+<p>De acuerdo con la tabla de arriba, <span class="function">noise(3)</span> volverá  a 0.364 igual al  tiempo 3.  Podríamos mejorar esto usando una variable para Tiempo y pidiendo una variable constantemente en <span class="function">draw()</span>.</p>
+
+<pre data-code-language="java" data-type="programlisting" class="codesplit">
+float t = 3;
+
+void draw() {
+  //{!1} Llamamos un valor de noise para un momento especifico de Tiempo.
+  float n = noise(t);
+  println(n);
+}</pre>
+
+<p>El código de arriba resulta en el mismo valor impreso una y otra vez. Esto ocurre porque estamos pidiendo a la función  <span class="function">noise()</span>, el resultado del mismo punto en el tiempo -3- una y otra vez. Sin embargo, si aumentamos la variable de tiempo <span class="var">t</span>, obtendrémos diferentes resultados. </p>
+
+<pre data-code-language="java" data-type="programlisting" class="codesplit">
+//{!1} Normalmente inicializamos la variable tiempo en 0, pero esto es arbitrario.
+float t = 0;
+
+void draw() {
+  float n = noise(t);
+  println(n);
+  //{!1} Ahora, avanzamos en el tiempo.
+  t += 0.01;
+}</pre>
+
+<p>Que tan rápido es el incremento de <span class="var">t</span> tambien afecta la fluidez de noise. Si hacemos salto largos en el tiempo, entonces estamos trasladandonos mas por cada salto y los valores seran más aleatorios. </p>
+
+<figure id="intro_figure7"><img alt="Figure I.7" src="intro/intro_07.png" />
+<figcaption>Figura I.7</figcaption>
+</figure>
+
+<p>Trata de ejecutar el código varias veces, aumentando <span class="var">t</span> por 0.01, 0.02, 0.05, 0.1, 0.0001, y podrás ver diferentes resultados.</p>
+
+<section data-type="sect2" id="_mapping_noise">
+<h3>Mapeo de Noise</h3>
+
+<a data-primary="map() function (Processing)" data-type="indexterm"></a> <a data-primary="Perlin noise" data-secondary="map() function" data-type="indexterm"></a>
+
+<p>Ahora estamos listos para poder respoder la pregunta sobre que hacer con los valores de noise. Una vez que tenemos el valor con un rango entre 0 y 1, depende de nosotros mapear  ese rango, al que queremos.  La forma mas fácil de hacer esto es con la función de processing<span class="function">map()</span>. Esta función se compone de cinco argumentos. Primero va el valor que queremos mapear, en este caso <span class="var">n</span>.  Luego debemos darle los valores del rango que tenemos, seguido por los valores del rango que deseamos.</p>
+
+<figure id="intro_figure8"><img alt="Figure I.8" src="intro/intro_08.png" />
+<figcaption>Figura I.8</figcaption>
+</figure>
+
+<p>En este caso, sabemos que noise tiene un rango que va 0 a 1, sin embargo, queremos dibujar un cirlculo con un rango que se extienda entre  0 y el ancho -width- de la ventana.</p>
+
+<pre data-code-language="java" data-type="programlisting" class="codesplit">
+float t = 0;
+
+void draw() {
+  float n = noise(t);
+  //{!1} Uso de map() para personalizar el rango de Perlin Noise
+  float x = map(n, 0, 1, 0, width);
+  ellipse(x, 180, 16, 16);
+
+  t += 0.01;
+}</pre>
+
+<p>Podemos aplicar la misma lógica a nuestro caminante aleatorio, y asignar los valores de su eje x y eje y según Perlin noise.</p>
+
+<figure class="screenshot" data-pde="processingjs/intro/_I_5_NoiseWalk/_I_5_NoiseWalk.pde processingjs/intro/_I_5_NoiseWalk/Walker.pde"><img alt="intro ex05" src="intro/intro_ex05.png" />
+<figcaption>&nbsp;</figcaption>
+</figure>
+
+<div data-type="example">
+<h5>Ejemplo I.5: Caminante Perlin noise</h5>
+</div>
+
+<pre data-code-language="java" data-type="programlisting" class="codesplit">
+class Caminante {
+  float x, y;
+  float tx, ty;
+
+  Caminante() {
+    tx = 0;
+    ty = 10000;
+  }
+
+  void paso() {
+    //{!2} Locación de eje x e y mapeadas desde noise.
+    x = map(noise(tx), 0, 1, 0, width);
+    y = map(noise(ty), 0, 1, 0, height);
+
+    //{!2}  Avanzar por el "tiempo."
+    tx += 0.01;
+    ty += 0.01;
+  }
+}</pre>
+
+<p>Notemos como en el ejemplo anterior se requiere un par de variables adicionales: <span class="var">tx</span> y <span class="var">ty</span>. Esto se debe a que debemos seguir la cuenta de dos variables de tiempo, una para la posición de x, y otra para la posición de y del objeto<span class="klass">Caminante</span>. Pero estas varibles tienen una peculiaridad. ¿Cuál es la razón por la cual<span class="var">tx</span> empieza en 0 y <span class="var">ty</span> en 10.000? Mientras estos números son elegidos arbitrariamente, hemos específicamente inicializado nuestras dos variables de tiempo, con diferentes valores. Esto es porque la función noise es determinista: nos entrega el mismo resultado para un tiempo <span class="var">t</span> específico, una y otra vez. Si pidieramos el valor de noise al mismo tiempo <span class="var">t</span> para <span class="var">x</span> e <span class="var">y</span>,ambas serian iguales; es decir, que el objeto <span class="klass">Caminante</span> se movería en dirección diagonal. En cambio, simplemente usamos diferentes sectores de la dimensión de noise, partiendo en 0 para <span class="var">x</span>, y en 10,000 para <span class="var">y</span>, de modo de que <span class="var">x</span> e <span class="var">y</span> puedan aparentar actuar de forma independiente. </p>
+
+<figure id="intro_figure9"><img alt="Figure I.9" src="intro/intro_09.png" />
+<figcaption>Figura I.9</figcaption>
+</figure>
+
+<p>En realidad, no existe una concepción del paso del tiempo. Es una metáfora que nos permite entender como trabaja la función noise, pero realmente lo que tenemos es espacio, antes que tiempo. El gráfico de arriba muestra una secuencia linear de valores de noise en un espacio unidimensional, y podemos pedir un valor en una posición <span class="var">x</span> especifica cuando queramos. Por ejemplo, a menudo veras variables llamadas <span class="var">xoff</span>para indicar el salto que se suma a x a lo largo del gráfico de noise,  antes que <span class="var">t</span> para tiempo ( como se indica en el diagráma). </p>
+
+<div data-type="exercise" id="intro_exercise7">
+<h5>Ejercicio I.7</h5>
+
+<p>En el caminante aleatorio, el resultado de la función esta mapeado directamente a la posición de <span class="klass">Caminante</span>. Crea un caminante aleatorio donde el resultado de la función<span class="function">noise()</span>  sea mapeado para determinar el tamaño del paso de <span class="klass">Caminante</span>.</p>
+</div>
+</section>
+
+<section data-type="sect2" id="_two_dimensional_noise">
+<h3>Noise Bidimensional</h3>
+
+<a data-primary="Perlin noise" data-secondary="two-dimensional" data-type="indexterm"></a>
+
+<p>La noción de que los valores de noise estan en un espacio unidimensional, es esencial, ya que nos conduce a la discución de un espacio bidimensional. Vamos a reflexionar sobre esto un momento. Con noise en una dimensión, tenemos una secuencia de valores en la que cualquier valor entregado es similar al anterior y al siguiente. Ya que el valor se encuentra en una dimensión, este tiene solo dos vecinos: el valor que viene antes (a la izquieda del gráfico) y el que viene después (a la derecha).</p>
+
+<figure class="two-col-borderless" id="intro_figure10"><img alt="Figure I.10: 1D Noise" src="intro/intro_10.png" />
+<figcaption>Figura I.10: 1D Noise&nbsp;</figcaption>
+</figure>
+
+<figure class="two-col-borderless" id="intro_figure11"><img alt="Figure I.11: 2D Noise" src="intro/intro_11.png" />
+<figcaption>Figura I.11: 2D Noise&nbsp;</figcaption>
+</figure>
+
+<p>Noise bidimensional funciona exactamente de la misma forma, conceptualmente. La diferencia es que no estamos buscando valores a lo largo de una trayectoria lineal, sino, valores que están en una grilla. Piensa en un pedazo de papel cuadriculado con números en cada celda. Un valor dado será similar a todo los valores colindantes : arriba, abajo, a la derecha, a la izquiera, y a lo largo en cualquier diagonal.</p>
+
+<p>Si se visualizara este papel cuadriculado con cada valor asignado a la luminosidad de un color, obtendríamos algo que parece una nube. El blanco se encuentra junto al gris claro, el cual esta junto al gris, el cual esta junto al gris oscuro, que esta junto al negro, que esta al lado del gris oscuro, etc. </p>
+
+<figure><img alt="intro ex06" src="intro/intro_ex06.png" />
+<figcaption>&nbsp;</figcaption>
+</figure>
+
+<p>Esta es la razón por la cual noise fue originalmente inventado. Los parámetros pueden ser ajustados o los colores alterados, para hacer que la imagen resultante tenga un aspecto más parecido al mármol o a la madera, o a cualquier otra textura orgánica. </p>
+
+<p>Vamos a echar un vistazo rápido a la forma de implementar noise bidimensional en Processing.  Si quisiéramos colorear cada píxel de una ventana aletaoriamente, necesitaríamos un bucle anidado, uno que  acceda a cada píxel y  recoja un valor de brillo al azar. </p>
+
+<pre data-code-language="java" data-type="programlisting" class="codesplit">
+loadPixels();
+for (int x = 0; x &lt; width; x++) {
+  for (int y = 0; y &lt; height; y++) {
+    //{!1} Brillo generado aletaoriamente por la función random()!
+    float bright = random(255);
+    pixels[x + y * width] = color(bright);
+  }
+}
+updatePixels();</pre>
+
+<p>Para colorear cada píxel de acuerdo a la función <span class="function">noise()</span>,haremos exactamente lo mismo, solo que en vez de llamar la función <span class="function">random()</span>, llamaremos a  <span class="function">noise()</span>.</p>
+
+<pre data-code-language="java" data-type="programlisting" class="codesplit">
+   //{.bold} Brillo dado por Perlin noise!
+   float bright = map(noise(x,y),0,1,0,255);</pre>
+
+<p>Teóricamente este un buen comienzo - te entrega un valor para cada posición (<span class="var">x</span>,<span class="var">y</span>)en nuestro espacio bidimensional. El problema es que esto no tendrá la calidad nubosa que queremos. Saltar del píxel 200 al 201 es un salto demasiado largo para noise . Recuerda, cuando trabajo con noise unidimensional, aumentamos nuestra variable de tiempo en 0.01 en cada cuadro, no en 1! Un buena solución para este problema es usar una variable diferente para los argumentos de noise. Por ejemplo, podríamos incrementar una variable llamada<span class="var">xoff</span> cada vez que se mueva horizontalmente, y una variable <span class="var">yoff</span> para cuando se mueva en sentido vertical a tráves de el bucle anidado.</p>
+
+<div data-type="example">
+<h5>Ejercicio I.6: 2D Perlin noise</h5>
+</div>
+
+<pre data-code-language="java" data-type="programlisting" class="codesplit">
+//{!1 .bold} Inciar xoff en 0.
+float xoff = 0.0;
+
+for (int x = 0; x &lt; width; x++) {
+  //{!1 .bold} Por cada xoff, inicia un yoff en 0.
+  float yoff = 0.0;
+
+  for (int y = 0; y &lt; height; y++) {
+    //{!2 .bold} Usa xoff e yoff para noise().
+    float bright =
+		  map(noise(xoff,yoff),0,1,0,255);
+    // Usa x e y para la posicion de los pixeles.
+    pixels[x + y * width] = color(bright);
+    //{!1 .bold} Aumentar yoff.
+    yoff += 0.01;
+  }
+  //{!1 .bold} Aumentar xoff.
+  xoff += 0.01;
+}</pre>
+
+<div data-type="exercise" id="intro_exercise8">
+<h5>Ejercicio I.8</h5>
+
+<p>Juega con el color, <span class="function">noiseDetail()</span>, y el ritmo en el que <span class="var">xoff</span> e <span class="var">yoff</span> son aumentados para lograr diferentes efectos visuales.</p>
+</div>
+
+<div data-type="exercise" id="intro_exercise9">
+<h5>Ejercicio I.9</h5>
+
+<p>Agrega a noise un tercer argumento que aumente una vez por ciclo por <span class="function">draw()</span>para animar el noise bidimensional.</p>
+</div>
+
+<div data-type="exercise" id="intro_exercise10">
+<h5>Exercise I.10</h5>
+
+<p>Utiliza los valores de noise para hacer elevaciones de topográficas. Usa como referente Mira el pantallazo de abajo como referente.</p>
+
+<figure><img alt="intro exc10" src="intro/intro_exc10.png" />
+<figcaption>intro exc10&nbsp;</figcaption>
+</figure>
+</div>
+
+<p>En esta sección hemos revisado varias maneras tradicionales de usar Perlin noise. Con noise unidimensional creamos la ilusión de un objeto ambulante, usando valores suaves para asignar la posición  <span class="var">x</span> e  <span class="var">y</span> de este. En cambio con noise bidimensional creamos un patrón nuboso con valores suaves en un plano de pixeles.  Es importante recordar, que sin embargo, los valores de Perlin noise son solo eso -valores. No están amarrados a posiciones de pixeles o a colores. Cualquier ejemplo en este libro que contenga variables puede ser controlado a través de Perlin noise. Por medio de Perlin noise podemos modelar la fuerza del viento. Así mismo, se puede controlar el ángulo entre las ramas de un árbol fractal, o la velocidad y dirección de objetos moviéndose en una grilla que simula una corriente.</p>
+
+<figure class="two-col" data-pde="processingjs/intro/TreeStochasticNoise/TreeStochasticNoise.pde" id="intro_figure12"><img alt="Figure I.12: Tree with Perlin noise" src="intro/intro_12.png" />
+<figcaption>Figura I.12: Tree with Perlin noise&nbsp;</figcaption>
+</figure>
+
+<figure class="two-col" data-pde="processingjs/intro/_6_04_FlowField/_6_04_FlowField.pde processingjs/intro/_6_04_FlowField/FlowField.pde processingjs/intro/_6_04_FlowField/Vehicle.pde" id="intro_figure13"><img alt="Figure I.13: Flow field with Perlin noise" src="intro/intro_13.png" />
+<figcaption>Figura I.13: Flow field with Perlin noise&nbsp;</figcaption>
+</figure>
+</section>
+</section>
+
+<section data-type="sect1" id="intro_section7">
+<h2>I.7 Avanzando</h2>
+
+<p>Comenzamos este capítulo revisando cómo la aleatoriedad puede ser una limitación. De muchas formas, es la respuesta más obvia al tipo de preguntas que continuamente nos hacemos – ¿Cómo debiera moverse este objeto? ¿De qué color debiera ser? La respuesta obvia, sin embargo, también puede ser una respuesta floja.</p>
+
+<p>Ahora que terminamnos la introducción, también vale la pena notar que fácilmente podríamos caer en la misma trampa, usando ruido Perliano (N. del T.: Ken Perlin es un académico que creó el argoritmo que lleva su nombre «Perlin Noise»). ¿Cómo se debe mover este objeto? ¡Ruido Perliano! ¿De qué color debe ser? ¡Ruido Perliano! ¿Qué tan rápido debe crecer? ¡Ruido Perliano!</p>
+
+<p>El punto no es que debamos o no debamos usar aleatoriedad. O que debemos o no debemos usar ruido Perliano. El punto es que tú defines las reglas de tu sistema, y mientras más herramientas manejas, más alternativas tendrás para implementar esas reglas. El objetivo de este libro es llenar tu caja de herramientas. Si lo único que conoces es la aleatoriedad, entonces tus posibilidades son limitadas. Seguro, el ruido Perliano ayuda, pero necesitarás más que eso. Mucho más.</p>
+
+<p>Yo creo que estamos listos para comenzar.</p>
+</section>
+</section>
